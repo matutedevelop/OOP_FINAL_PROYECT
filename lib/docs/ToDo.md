@@ -1,0 +1,3 @@
+- [ ] MATRIX OPERATIONS
+- [ ] Newthon Rephson
+- [ ] Numerical Integration and derivation
