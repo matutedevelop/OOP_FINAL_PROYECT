@@ -24,10 +24,17 @@ public class TestMatrix {
 
         System.out.println(m1.clone());
 
-        SquareMatrix<Double> mEye = SquareMatrix.eyeMatrix(4);
+        SquareMatrix<Double> mEye = SquareMatrix.eyeMatrix(50);
         System.out.println(mEye);
 
         System.out.println(mEye.getDeterminante());
+
+        Double[][] val2 = {{1.0, -2.0,-1.0,3.0},{-1.0,3.0,-2.0,-2.0},{2.0,0.0,1.0,1.0},{1.0,-2.0,2.0,3.0}};
+        SquareMatrix<Double> m2 = new SquareMatrix<>(val2);
+        System.out.println(m2);
+        System.out.println(m2.getDeterminante());
+        System.out.println(m2.getInversa());
+        System.out.println(m2.multiplicar(m2.getInversa()));
 
         
     }

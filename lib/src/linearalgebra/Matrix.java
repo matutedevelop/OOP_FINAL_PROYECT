@@ -18,6 +18,14 @@ public class Matrix<T extends Number> {
         this.ncols = ncols;
         this.values = new Number[nrows][ncols];
 
+        // Copia profunda para evitar referencias externas
+        for (int i = 0; i < nrows; i++) {
+            for (int j = 0; j < ncols; j++) {
+
+                this.values[i][j] = 0.0;
+            }
+        }
+
     }
 
     public Matrix(T[][] values) {
@@ -77,8 +85,8 @@ public class Matrix<T extends Number> {
         for (int i = 0; i < this.nrows; i++) {
             for (int j = 0; j < this.ncols; j++) {
                 
-                double valA = this.values[i][j] == null ? 0.0 : this.values[i][j].doubleValue();
-                double valB = matriz.values[i][j] == null ? 0.0 : matriz.values[i][j].doubleValue();
+                double valA = this.values[i][j].doubleValue();
+                double valB = matriz.values[i][j].doubleValue();
 
                 resultado.setValue(i, j, valA + valB);
             }
@@ -205,7 +213,7 @@ public class Matrix<T extends Number> {
         for (int i = 0; i < nrows; i++) {
             matriz += "[ ";
             for (int j = 0; j < ncols; j++) {
-                matriz += values[i][j] + "\t";
+                matriz += String.format("%.4f", values[i][j].doubleValue()) + "\t";
             }
 
             matriz += "]\n";

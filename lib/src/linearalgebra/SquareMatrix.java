@@ -67,14 +67,14 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
     }
 
     private double determinanteRecursivo(Number[][] matrizActual) {
-
+        int n = matrizActual.length;
         // Caso Matriz 1x1
-        if (this.dimension == 1) {
+        if (n == 1) {
             return matrizActual[0][0].doubleValue();
         }
 
         // Caso Matriz 2x2 (
-        if (this.dimension == 2) {
+        if (n == 2) {
             double a = matrizActual[0][0].doubleValue();
             double b = matrizActual[0][1].doubleValue();
             double c = matrizActual[1][0].doubleValue();
@@ -84,27 +84,24 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
 
         // Caso Recursivo: Expansión de Laplace
         double determinante = 0;
-
-        for (int c = 0; c < this.dimension; c++) {
-
-            for (int f = 0; f < this.dimension; f++) {
+        for (int c = 0; c < n; c++) {
             // Alternancia de signos (+ - + -)
-                double signo = (c % 2 == 0) ? 1.0 : -1.0;
-                double valorActual = matrizActual[0][c].doubleValue();
-                
-                // Si el valor es 0
-                if (valorActual == 0) continue;
+            double signo = (c % 2 == 0) ? 1.0 : -1.0;
+            double valorActual = matrizActual[0][c].doubleValue();
+            
+            // Si el valor es 0, saltamos el cálculo para optimizar
+            if (valorActual == 0) continue;
 
-                Number[][] subMatriz = crearSubMatriz(matrizActual, f, c);
-                determinante += signo * valorActual * determinanteRecursivo(subMatriz);
-            }
+            Number[][] subMatriz = crearSubMatriz(matrizActual, 0, c);
+            determinante += signo * valorActual * determinanteRecursivo(subMatriz);
         }
+
         return determinante;
     }
 
     private Number[][] crearSubMatriz(Number[][] original, int filaAExcluir, int colAExcluir) {
-        int n = this.dimension;
-        Number[][] nueva = new Number[n - 1][n - 1];
+        int n = original.length;
+        Number[][] nueva = new Number[n-1][n-1];
         
         int r = -1;
         for (int i = 0; i < n; i++) {
@@ -117,6 +114,44 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
             }
         }
         return nueva;
+    }
+
+    public SquareMatrix<Double> getInversa() {
+
+        double det = this.getDeterminante();
+
+        // Si el determinante es 0, matemáticamente no existe inversa
+        if (Math.abs(det) < 1e-10) { 
+            throw new ArithmeticException("La matriz es singular (Determinante = 0), no tiene inversa.");
+        }
+
+        int n = this.getNrows();
+        SquareMatrix<Double> matrizInversa = new SquareMatrix<>(n);
+
+        // Caso  Matriz de 1x1
+        if (n == 1) {
+            matrizInversa.setValue(0, 0, 1.0 / det);
+            return matrizInversa;
+        }
+
+        // Construir la Matriz Adjunta (Cofactores Transpuestos) / Determinante
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                // btener la submatriz eliminando fila i y columna j
+                Number[][] subMatriz = crearSubMatriz(this.values, i, j);
+
+                // Calcular el determinante de esa submatriz (Menor)
+                double detMenor = determinanteRecursivo(subMatriz);
+
+                // Determinar el signo del cofactor (+ - + -)
+                double signo = ((i + j) % 2 == 0) ? 1.0 : -1.0;
+                double cofactor = signo * detMenor;
+
+                matrizInversa.setValue(j, i, cofactor / det);
+            }
+        }
+
+        return matrizInversa;
     }
 
 
