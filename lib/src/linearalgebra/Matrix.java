@@ -73,6 +73,33 @@ public class Matrix<T extends Number> {
         return shape;
     }
 
+    public double[] getColumn(int col) {
+        if (col < 0 || col >= this.ncols) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango");
+        }
+
+        double[] columna = new double[this.nrows];
+        
+        for (int i = 0; i < this.nrows; i++) {
+            columna[i] = this.values[i][col].doubleValue();
+        }
+
+        return columna;
+    }
+    
+    public double[] getRow(int row) {
+        if (row < 0 || row >= this.nrows) {
+            throw new IndexOutOfBoundsException("Índice fuera de rango");
+        }
+
+        double[] fila = new double[this.ncols];
+        
+        for (int i = 0; i < this.ncols; i++) {
+            fila[i] = this.values[row][i].doubleValue();
+        }
+
+        return fila;
+    }
 
     // OPERACIOENS BASICAS DE LAS MATRICES
     public Matrix<Double> sumar(Matrix<? extends Number> matriz) {
