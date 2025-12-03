@@ -62,5 +62,62 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         return true;
     }
 
+    public double getDeterminante() {
+        return determinanteRecursivo(this.values);
+    }
+
+    private double determinanteRecursivo(Number[][] matrizActual) {
+
+        // Caso Matriz 1x1
+        if (this.dimension == 1) {
+            return matrizActual[0][0].doubleValue();
+        }
+
+        // Caso Matriz 2x2 (
+        if (this.dimension == 2) {
+            double a = matrizActual[0][0].doubleValue();
+            double b = matrizActual[0][1].doubleValue();
+            double c = matrizActual[1][0].doubleValue();
+            double d = matrizActual[1][1].doubleValue();
+            return (a * d) - (b * c);
+        }
+
+        // Caso Recursivo: Expansión de Laplace
+        double determinante = 0;
+
+        for (int c = 0; c < this.dimension; c++) {
+
+            for (int f = 0; f < this.dimension; f++) {
+            // Alternancia de signos (+ - + -)
+                double signo = (c % 2 == 0) ? 1.0 : -1.0;
+                double valorActual = matrizActual[0][c].doubleValue();
+                
+                // Si el valor es 0
+                if (valorActual == 0) continue;
+
+                Number[][] subMatriz = crearSubMatriz(matrizActual, f, c);
+                determinante += signo * valorActual * determinanteRecursivo(subMatriz);
+            }
+        }
+        return determinante;
+    }
+
+    private Number[][] crearSubMatriz(Number[][] original, int filaAExcluir, int colAExcluir) {
+        int n = this.dimension;
+        Number[][] nueva = new Number[n - 1][n - 1];
+        
+        int r = -1;
+        for (int i = 0; i < n; i++) {
+            if (i == filaAExcluir) continue;
+            r++;
+            int c = -1;
+            for (int j = 0; j < n; j++) {
+                if (j == colAExcluir) continue;
+                nueva[r][++c] = original[i][j];
+            }
+        }
+        return nueva;
+    }
+
 
 } // final de la clase

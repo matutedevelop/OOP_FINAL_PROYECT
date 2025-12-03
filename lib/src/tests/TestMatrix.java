@@ -24,7 +24,11 @@ public class TestMatrix {
 
         System.out.println(m1.clone());
 
-        SquareMatrix<Double> mEye = SquareMatrix.eyeMatrix(3);
+        SquareMatrix<Double> mEye = SquareMatrix.eyeMatrix(4);
         System.out.println(mEye);
+
+        System.out.println(mEye.getDeterminante());
+
+        
     }
 }

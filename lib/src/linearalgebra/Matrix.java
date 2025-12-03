@@ -1,6 +1,5 @@
 package linearalgebra;
 
-
 public class Matrix<T extends Number> {
 
     private int ncols;
@@ -68,7 +67,6 @@ public class Matrix<T extends Number> {
 
 
     // OPERACIOENS BASICAS DE LAS MATRICES
-
     public Matrix<Double> sumar(Matrix<? extends Number> matriz) {
         if (this.nrows != matriz.nrows || this.ncols != matriz.ncols) {
             throw new IllegalArgumentException("Las dimensiones deben ser iguales para sumar.");
@@ -229,5 +227,6 @@ public class Matrix<T extends Number> {
 
         return matriz;
     }
-    
+
+
 }  // final de la clase
