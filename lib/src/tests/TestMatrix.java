@@ -1,6 +1,7 @@
 package tests;
 
 import linearalgebra.Matrix;
+import linearalgebra.SquareMatrix;
 
 public class TestMatrix {
     public static void main(String[] args) {
@@ -22,5 +23,8 @@ public class TestMatrix {
         System.out.println(m1.multiplicarEscalar(2));
 
         System.out.println(m1.clone());
+
+        SquareMatrix<Double> mEye = SquareMatrix.eyeMatrix(3);
+        System.out.println(mEye);
     }
 }

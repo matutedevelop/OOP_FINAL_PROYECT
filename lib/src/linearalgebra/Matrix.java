@@ -6,7 +6,7 @@ public class Matrix<T extends Number> {
     private int ncols;
     private int nrows;
 
-    private Number[][] values;
+    protected Number[][] values;
 
     // constructores
     public Matrix(int nrows, int ncols) {
