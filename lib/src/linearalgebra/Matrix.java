@@ -1,3 +1,5 @@
+package linearalgebra;
+
 public class Matrix {
 
     private int ncols;
@@ -5,10 +7,14 @@ public class Matrix {
 
     public Number[][] values;
 
+    public Matrix() {
+
+    }
+
 
     public boolean equals(){
         //TODO hacer esta madre
-        return False;
+        return false;
     }
 
     public String toString(){
