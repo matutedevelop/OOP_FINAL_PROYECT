@@ -1,5 +1,6 @@
 package complex;
 
+import enume.Angulo;
 import linearalgebra.Matrix;
 
 public class ComplexNumber {
@@ -61,13 +62,42 @@ public class ComplexNumber {
         return new ComplexNumber(newReal, newImaginary);
     }
 
-    public double modulo() {
+    public double norm() {
         return Math.sqrt((real * real) + (imaginary * imaginary));
     }
+
+    public double angle(Angulo angulo) {
+        if (angulo.value() == 1){
+            return Math.atan2(this.imaginary, this.real);
+        }
+        else {
+            return Math.atan2(this.imaginary, this.real) * 180 * Math.PI;
+        }
+    }
+
+    public String showPolar(Angulo angulo) {
+        String num = String.format("Radio: %.4f, Angulo: %.4f", norm(), angle(angulo));
+
+        if (angulo.value() == 1) {
+            return num + " Rad";
+        }
+        else {
+            return num + " °";
+        }
+    }
+
+
 
     // Conjugado: z' = a - bi
     public ComplexNumber conjugado() {
         return new ComplexNumber(this.real, -this.imaginary);
+    }
+
+
+    // Metodos estaticos de la clase
+
+    public static ComplexNumber fromPolar(double r, double theta) {
+        return new ComplexNumber(r * Math.cos(theta), r * Math.sin(theta));
     }
 
     // Metodos Canonicos
