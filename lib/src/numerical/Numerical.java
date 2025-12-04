@@ -3,6 +3,9 @@ package numerical;
 import java.util.Vector;
 import java.util.function.Function;
 
+import linearalgebra.Matrix;
+import linearalgebra.SquareMatrix;
+
 public interface Numerical {
 
     public static double NRroots(Double a, Function<Double, Double> f, Double x0) {
@@ -66,6 +69,18 @@ public interface Numerical {
 
 
         return sum;
+    }
+
+    public static Matrix<Double> solveLinearEq(SquareMatrix<Double> coefMatrix,Matrix<Double> constants){
+
+        if (constants.getNcols() != 1) {
+            throw new IllegalArgumentException("La matriz de constantes tiene que ser de dimensiones nx1");
+        }
+
+        SquareMatrix<Double> invCoefMatrix = coefMatrix.getInversa();
+        return invCoefMatrix.multiplicar(constants);
+
+
     }
 
 
