@@ -1,6 +1,6 @@
 package numerical;
 import java.util.function.Function;
-import numerical.Numerical;
+
 
 public class testRapido {
 

@@ -1,6 +1,5 @@
 package numerical;
 
-import java.util.Vector;
 import java.util.function.Function;
 
 import linearalgebra.Matrix;
