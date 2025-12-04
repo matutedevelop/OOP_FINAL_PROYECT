@@ -8,6 +8,7 @@ import java.util.Arrays;
 import linearalgebra.Matrix;
 import linearalgebra.SquareMatrix;
 import linearalgebra.Vector;
+import numerical.RootQR;
 
 public class TestMatrix {
     public static void main(String[] args) {
@@ -52,5 +53,7 @@ public class TestMatrix {
 
         System.out.println(mEye.sumar(m3));
 
+        double[] coef = {1.0, -5.0, 6.0};
+        System.out.println(Arrays.toString(RootQR.roots(coef)));    
     }
 }
