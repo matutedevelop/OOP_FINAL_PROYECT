@@ -1,5 +1,7 @@
 package app;
 
+import java.util.Arrays;
+
 import linearalgebra.Matrix;
 import linearalgebra.SquareMatrix;
 
@@ -41,11 +43,11 @@ public class PCA {
 
     }
 
-    public static SquareMatrix<Double> covarMatrix(Matrix<Double> A) {
+    public static SquareMatrix covarMatrix(Matrix A) {
 
         int ncols = A.getNcols();
 
-        SquareMatrix<Double> covarMat = new SquareMatrix<Double>(ncols);
+        SquareMatrix covarMat = new SquareMatrix(ncols);
 
         for (int i = 0; i < ncols; i++) {
             for (int j = 0; j < ncols; j++) {
@@ -75,7 +77,7 @@ public class PCA {
         //     }
         // }
 
-        Double[][] data = {
+        double[][] data = {
 
                 { 4.58304446, 4.58304446 },
                 { 4.18649674, 4.18649674 },
@@ -140,13 +142,37 @@ public class PCA {
 
         };
 
-        Matrix<Double> B = new Matrix<Double>(data);
+        Matrix B = new Matrix(data);
 
         System.out.println(B);
 
-        SquareMatrix<Double> covarB = covarMatrix(B);
+        SquareMatrix covarB = covarMatrix(B);
+
         System.out.println(covarB);
 
+        System.out.println("eigenvalues");
+
+        System.out.println(Arrays.toString(covarB.eigenValues()));
+        System.out.println("eigenvectors");
+
+        System.out.println(covarB.eigenVectors());
+
+
+
+        double[] eigenVector = covarB.eigenVectors().getColumn(0);
+
+        Matrix projectionMatrix = new Matrix(1,2);
+        projectionMatrix.setValue(0, 0, eigenVector[0]);
+        projectionMatrix.setValue(0, 1, eigenVector[1]);
+
+        System.out.println("Matriz de proyeccion");
+
+        System.out.println(projectionMatrix);
+
+
+        Matrix projectedData = projectionMatrix.multiplicar(B.transpuesta());
+
+        System.out.println(projectedData);
 
     }
 
