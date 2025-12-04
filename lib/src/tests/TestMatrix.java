@@ -1,10 +1,13 @@
 package tests;
 
 
+
+
 import java.util.Arrays;
 
 import linearalgebra.Matrix;
 import linearalgebra.SquareMatrix;
+import linearalgebra.Vector;
 
 public class TestMatrix {
     public static void main(String[] args) {

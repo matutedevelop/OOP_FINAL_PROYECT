@@ -142,8 +142,7 @@ public class Vector {
         double suma = 0.0;
 
         for (int i = 0; i < this.dimension; i++) {
-            double valor = this.getValue(i);
-            suma += valor * valor;
+            suma += getValue(i) * getValue(i);
         }
 
         return Math.sqrt(suma);
@@ -152,13 +151,14 @@ public class Vector {
     public Vector normalize() {
 
         double mag = this.getNorm();
+
         if (mag == 0) {
             throw new ArithmeticException("No se puede normalizar un vector nulo");
         }
 
-        Vector resultado = new Vector(this.dimension);
+        Vector resultado = new Vector(this.values);
 
-        resultado = resultado.multiplicarEscalar(1 / mag);
+        resultado = resultado.multiplicarEscalar(1.0 / mag);
 
         return resultado;
     }
