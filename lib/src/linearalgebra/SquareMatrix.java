@@ -1,7 +1,7 @@
 package linearalgebra;
 import numerical.QR;
 
-public class SquareMatrix<T extends Number> extends Matrix<T> {
+public class SquareMatrix extends Matrix {
 
     // atributos
     private int dimension;
@@ -14,7 +14,7 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
     }
 
     // Constructor 2: Recibe datos ya existentes
-    public SquareMatrix(T[][] values) {
+    public SquareMatrix(double[][] values) {
         super(values);
         // Validación extra: Debe ser cuadrada
         if (this.getNrows() != this.getNcols()) {
@@ -31,9 +31,9 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
 
     // Metodos que solo tiene la matriz cuadrada
 
-    public static SquareMatrix<Double> eyeMatrix(int dimension) {
+    public static SquareMatrix eyeMatrix(int dimension) {
 
-        SquareMatrix<Double> matriz = new SquareMatrix<>(dimension);
+        SquareMatrix matriz = new SquareMatrix(dimension);
 
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
@@ -53,7 +53,7 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         double suma = 0;
         for (int i = 0; i < this.dimension; i++) {
             // Usamos doubleValue() para tener precisión aritmética
-            suma += this.values[i][i].doubleValue();
+            suma += this.values[i][i];
         }
         return suma;
     }
@@ -61,8 +61,8 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
     public boolean esSimetrica() {
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < i; j++) { // Solo recorremos el triángulo inferior
-                double valA = this.values[i][j].doubleValue();
-                double valB = this.values[j][i].doubleValue();
+                double valA = this.values[i][j];
+                double valB = this.values[j][i];
                 
                 if (valA != valB) return false;
             }
@@ -74,19 +74,19 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         return determinanteRecursivo(this.values);
     }
 
-    private double determinanteRecursivo(Number[][] matrizActual) {
+    private double determinanteRecursivo(double[][] matrizActual) {
         int n = matrizActual.length;
         // Caso Matriz 1x1
         if (n == 1) {
-            return matrizActual[0][0].doubleValue();
+            return matrizActual[0][0];
         }
 
         // Caso Matriz 2x2 (
         if (n == 2) {
-            double a = matrizActual[0][0].doubleValue();
-            double b = matrizActual[0][1].doubleValue();
-            double c = matrizActual[1][0].doubleValue();
-            double d = matrizActual[1][1].doubleValue();
+            double a = matrizActual[0][0];
+            double b = matrizActual[0][1];
+            double c = matrizActual[1][0];
+            double d = matrizActual[1][1];
             return (a * d) - (b * c);
         }
 
@@ -95,21 +95,21 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         for (int c = 0; c < n; c++) {
             // Alternancia de signos (+ - + -)
             double signo = (c % 2 == 0) ? 1.0 : -1.0;
-            double valorActual = matrizActual[0][c].doubleValue();
+            double valorActual = matrizActual[0][c];
             
             // Si el valor es 0, saltamos el cálculo para optimizar
             if (valorActual == 0) continue;
 
-            Number[][] subMatriz = crearSubMatriz(matrizActual, 0, c);
+            double[][] subMatriz = crearSubMatriz(matrizActual, 0, c);
             determinante += signo * valorActual * determinanteRecursivo(subMatriz);
         }
 
         return determinante;
     }
 
-    private Number[][] crearSubMatriz(Number[][] original, int filaAExcluir, int colAExcluir) {
+    private double[][] crearSubMatriz(double[][] original, int filaAExcluir, int colAExcluir) {
         int n = original.length;
-        Number[][] nueva = new Number[n-1][n-1];
+        double[][] nueva = new double[n-1][n-1];
         
         int r = -1;
         for (int i = 0; i < n; i++) {
@@ -124,7 +124,7 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         return nueva;
     }
 
-    public SquareMatrix<Double> getInversa() {
+    public SquareMatrix getInversa() {
 
         double det = this.getDeterminante();
 
@@ -134,7 +134,7 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         }
 
         int n = this.getNrows();
-        SquareMatrix<Double> matrizInversa = new SquareMatrix<>(n);
+        SquareMatrix matrizInversa = new SquareMatrix(n);
 
         // Caso  Matriz de 1x1
         if (n == 1) {
@@ -146,7 +146,7 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 // btener la submatriz eliminando fila i y columna j
-                Number[][] subMatriz = crearSubMatriz(this.values, i, j);
+                double[][] subMatriz = crearSubMatriz(this.values, i, j);
 
                 // Calcular el determinante de esa submatriz (Menor)
                 double detMenor = determinanteRecursivo(subMatriz);
@@ -164,7 +164,7 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
 
     public double[] eigenValues() {
         int iteraciones = 150;
-        Matrix<Double> matriz = new SquareMatrix<>(this.dimension);
+        Matrix matriz = new SquareMatrix(this.dimension);
 
         for (int i = 0; i < this.dimension; i++) {
             for (int j = 0; j < this.dimension; j++) {

@@ -2,11 +2,11 @@ package linearalgebra;
 
 import enume.Angulo;
 
-public class Vector<T extends Number> {
+public class Vector {
     
     // atributos
     private int dimension;
-    private Number[] values;
+    private double[] values;
 
     // constructores
     public Vector(int dimension) {
@@ -16,7 +16,7 @@ public class Vector<T extends Number> {
         }
 
         this.dimension = dimension;
-        this.values = new Number[dimension];
+        this.values = new double[dimension];
 
         // Copia profunda para evitar referencias externas
         for (int i = 0; i < dimension; i++) {
@@ -24,28 +24,13 @@ public class Vector<T extends Number> {
         }
     }
 
-    public Vector(T[] values) {
-        if (values == null || values.length == 0) {
-            throw new IllegalArgumentException("El array de datos no puede ser nulo ni estar vacío.");
-        }
-
-        this.dimension = values.length;
-        this.values = new Number[values.length];
-
-        // Copia profunda para evitar referencias externas
-        for (int i = 0; i < values.length; i++) {
-            setValue(i, values[i]);
-        }
-    }
-
-
     public Vector(double[] values) {
         if (values == null || values.length == 0) {
             throw new IllegalArgumentException("El array de datos no puede ser nulo ni estar vacío.");
         }
 
         this.dimension = values.length;
-        this.values = new Number[values.length];
+        this.values = new double[values.length];
 
         // Copia profunda para evitar referencias externas
         for (int i = 0; i < values.length; i++) {
@@ -65,10 +50,10 @@ public class Vector<T extends Number> {
             throw new IndexOutOfBoundsException("Índice fuera de rango");
         }
 
-        return values[indice].doubleValue();
+        return values[indice];
     }
 
-    public void setValue(int indice, T value) {
+    public void setValue(int indice, double value) {
         if (indice < 0 || indice >= this.dimension) {
             throw new IndexOutOfBoundsException("Índice fuera de rango");
         }
@@ -78,17 +63,17 @@ public class Vector<T extends Number> {
 
     // metodos de la clase Vectores
 
-    public Vector<Double> sumar(Vector<? extends Number> vector) {
+    public Vector sumar(Vector vector) {
         if (this.dimension != vector.getDimension()) {
             throw new IllegalArgumentException("Las dimensiones deben ser iguales para sumar.");
         }
 
-        Vector<Double> resultado = new Vector<>(this.dimension);
+        Vector resultado = new Vector(this.dimension);
 
         for (int i = 0; i < resultado.getDimension(); i++) {
                 
-            double valA = this.values[i].doubleValue();
-            double valB = vector.values[i].doubleValue();
+            double valA = this.values[i];
+            double valB = vector.values[i];
 
             resultado.setValue(i,valA + valB);
         }
@@ -96,17 +81,17 @@ public class Vector<T extends Number> {
         return resultado;
     } // fin de la suma 
 
-    public Vector<Double> restar(Vector<? extends Number> vector) {
+    public Vector restar(Vector vector) {
         if (this.dimension != vector.getDimension()) {
             throw new IllegalArgumentException("Las dimensiones deben ser iguales para sumar.");
         }
 
-        Vector<Double> resultado = new Vector<>(this.dimension);
+        Vector resultado = new Vector(this.dimension);
 
         for (int i = 0; i < resultado.getDimension(); i++) {
                 
-            double valA = this.values[i].doubleValue();
-            double valB = vector.values[i].doubleValue();
+            double valA = this.values[i];
+            double valB = vector.values[i];
 
             resultado.setValue(i,valA - valB);
         }
@@ -115,9 +100,9 @@ public class Vector<T extends Number> {
     } // fin de la resta
     
 
-    public Vector<Double> multiplicarEscalar(double escalar) {
+    public Vector multiplicarEscalar(double escalar) {
 
-        Vector<Double> resultado = new Vector<>(this.dimension);
+        Vector resultado = new Vector(this.dimension);
 
         for (int i = 0; i < resultado.getDimension(); i++) {
 
@@ -127,9 +112,9 @@ public class Vector<T extends Number> {
         return resultado;
     } // fin de la multiplicacion
 
-    public Vector<Double> sumarEscalar(double escalar) {
+    public Vector sumarEscalar(double escalar) {
 
-        Vector<Double> resultado = new Vector<>(this.dimension);
+        Vector resultado = new Vector(this.dimension);
 
         for (int i = 0; i < resultado.getDimension(); i++) {
 
@@ -139,7 +124,7 @@ public class Vector<T extends Number> {
         return resultado;
     } // fin de la suma
 
-    public double dot(Vector<? extends Number> vector) {
+    public double dot(Vector vector) {
         if (this.dimension != vector.getDimension()) {
             throw new IllegalArgumentException("Las dimensiones deben ser iguales para sumar.");
         }
@@ -164,21 +149,21 @@ public class Vector<T extends Number> {
         return Math.sqrt(suma);
     }
 
-    public Vector<Double> normalize() {
+    public Vector normalize() {
 
         double mag = this.getNorm();
         if (mag == 0) {
             throw new ArithmeticException("No se puede normalizar un vector nulo");
         }
 
-        Vector<Double> resultado = new Vector<>(this.dimension);
+        Vector resultado = new Vector(this.dimension);
 
         resultado = resultado.multiplicarEscalar(1 / mag);
 
         return resultado;
     }
 
-    public double angleVector(Vector<? extends Number> otro, Angulo angulo) {
+    public double angleVector(Vector otro, Angulo angulo) {
         double dot = this.dot(otro);
         double magA = this.getNorm();
         double magB = otro.getNorm();
@@ -211,7 +196,7 @@ public class Vector<T extends Number> {
 
         if (! (obj instanceof Matrix)) return false; // para ver si son el mismo tipo de instancia
 
-        Vector<?> vector = (Vector<?>) obj;
+        Vector vector = (Vector) obj;
 
         if (this.dimension != vector.getDimension()) {
             return false;
@@ -243,7 +228,7 @@ public class Vector<T extends Number> {
 
     @Override
     public Object clone(){
-        Vector<Double> vector = new Vector<>(this.dimension);
+        Vector vector = new Vector(this.dimension);
 
         for (int i = 0; i < this.dimension; i++) {
             vector.setValue(i, getValue(i));

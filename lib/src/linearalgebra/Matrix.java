@@ -1,11 +1,11 @@
 package linearalgebra;
 
-public class Matrix<T extends Number> {
+public class Matrix {
 
     private int ncols;
     private int nrows;
 
-    protected Number[][] values;
+    protected double[][] values;
 
     // constructores
     public Matrix(int nrows, int ncols) {
@@ -16,7 +16,7 @@ public class Matrix<T extends Number> {
 
         this.nrows = nrows;
         this.ncols = ncols;
-        this.values = new Number[nrows][ncols];
+        this.values = new double[nrows][ncols];
 
         // Copia profunda para evitar referencias externas
         for (int i = 0; i < nrows; i++) {
@@ -28,7 +28,7 @@ public class Matrix<T extends Number> {
 
     }
 
-    public Matrix(T[][] values) {
+    public Matrix(double[][] values) {
 
         if (values == null || values.length == 0 || values[0].length == 0) {
             throw new IllegalArgumentException("El array de datos no puede ser nulo ni estar vacío.");
@@ -36,7 +36,7 @@ public class Matrix<T extends Number> {
 
         this.nrows = values.length;
         this.ncols = values[0].length;
-        this.values = new Number[nrows][ncols];
+        this.values = new double[nrows][ncols];
         
         // Copia profunda para evitar referencias externas
         for (int i = 0; i < nrows; i++) {
@@ -52,10 +52,10 @@ public class Matrix<T extends Number> {
 
     public double getValue(int row, int col) {
         validarIndices(row, col);
-        return this.values[row][col].doubleValue();
+        return this.values[row][col];
     }
 
-    public void setValue(int row, int col, T valor) {
+    public void setValue(int row, int col, double valor) {
         validarIndices(row, col);
         this.values[row][col] = valor;
     }
@@ -81,7 +81,7 @@ public class Matrix<T extends Number> {
         double[] columna = new double[this.nrows];
         
         for (int i = 0; i < this.nrows; i++) {
-            columna[i] = this.values[i][col].doubleValue();
+            columna[i] = this.values[i][col];
         }
 
         return columna;
@@ -95,25 +95,25 @@ public class Matrix<T extends Number> {
         double[] fila = new double[this.ncols];
         
         for (int i = 0; i < this.ncols; i++) {
-            fila[i] = this.values[row][i].doubleValue();
+            fila[i] = this.values[row][i];
         }
 
         return fila;
     }
 
     // OPERACIOENS BASICAS DE LAS MATRICES
-    public Matrix<Double> sumar(Matrix<? extends Number> matriz) {
+    public Matrix sumar(Matrix matriz) {
         if (this.nrows != matriz.nrows || this.ncols != matriz.ncols) {
             throw new IllegalArgumentException("Las dimensiones deben ser iguales para sumar.");
         }
 
-        Matrix<Double> resultado = new Matrix<>(this.nrows, this.ncols);
+        Matrix resultado = new Matrix(this.nrows, this.ncols);
 
         for (int i = 0; i < this.nrows; i++) {
             for (int j = 0; j < this.ncols; j++) {
                 
-                double valA = this.values[i][j].doubleValue();
-                double valB = matriz.values[i][j].doubleValue();
+                double valA = this.values[i][j];
+                double valB = matriz.values[i][j];
 
                 resultado.setValue(i, j, valA + valB);
             }
@@ -123,18 +123,18 @@ public class Matrix<T extends Number> {
     } // fin de la suma 
 
 
-    public Matrix<Double> restar(Matrix<? extends Number> matriz) {
+    public Matrix restar(Matrix matriz) {
         if (this.nrows != matriz.nrows || this.ncols != matriz.ncols) {
             throw new IllegalArgumentException("Las dimensiones deben ser iguales para sumar.");
         }
 
-        Matrix<Double> resultado = new Matrix<>(this.nrows, this.ncols);
+        Matrix resultado = new Matrix(this.nrows, this.ncols);
 
         for (int i = 0; i < this.nrows; i++) {
             for (int j = 0; j < this.ncols; j++) {
                 
-                double valA = this.values[i][j] == null ? 0.0 : this.values[i][j].doubleValue();
-                double valB = matriz.values[i][j] == null ? 0.0 : matriz.values[i][j].doubleValue();
+                double valA = this.values[i][j];
+                double valB = matriz.values[i][j];
 
                 resultado.setValue(i, j, valA - valB);
             }
@@ -144,21 +144,21 @@ public class Matrix<T extends Number> {
     } // fin de la resta
 
 
-    public Matrix<Double> multiplicar(Matrix<? extends Number> matriz) {
+    public Matrix multiplicar(Matrix matriz) {
         if (this.ncols != matriz.getNrows()) {
             throw new IllegalArgumentException(
                 "Columnas de A (" + this.ncols + ") no coinciden con Filas de B (" + matriz.getNrows() + ")."
             );
         }
 
-        Matrix<Double> resultado = new Matrix<>(this.nrows, matriz.getNcols());
+        Matrix resultado = new Matrix(this.nrows, matriz.getNcols());
 
         // Algoritmo de multiplicación de matrices
         for (int i = 0; i < this.nrows; i++) {           
             for (int j = 0; j < matriz.getNcols(); j++) {   
                 for (int k = 0; k < this.nrows; k++) { 
-                    resultado.values[i][j] = resultado.values[i][j].doubleValue() + 
-                                            this.values[i][k].doubleValue() * matriz.values[k][j].doubleValue();
+                    resultado.values[i][j] = resultado.values[i][j] + 
+                                            this.values[i][k] * matriz.values[k][j];
                 }
             }
         }
@@ -167,14 +167,14 @@ public class Matrix<T extends Number> {
     } // final de multiplicar
 
 
-    public Matrix<Double> multiplicarEscalar(double escalar) {
+    public Matrix multiplicarEscalar(double escalar) {
 
-        Matrix<Double> resultado = new Matrix<>(this.nrows, this.ncols);
+        Matrix resultado = new Matrix(this.nrows, this.ncols);
 
         for (int i = 0; i < this.nrows; i++) {
             for (int j = 0; j < this.ncols; j++) {
    
-                resultado.setValue(i, j, escalar * this.values[i][j].doubleValue());
+                resultado.setValue(i, j, escalar * this.values[i][j]);
             }
         }
 
@@ -183,9 +183,9 @@ public class Matrix<T extends Number> {
 
 
 
-    public Matrix<T> transpuesta() {
+    public Matrix transpuesta() {
 
-        Matrix<T> resultado = new Matrix<>(this.ncols, this.nrows);
+        Matrix resultado = new Matrix(this.ncols, this.nrows);
 
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {
@@ -203,7 +203,7 @@ public class Matrix<T extends Number> {
         }
     }
 
-    
+
 
 
 
@@ -216,7 +216,7 @@ public class Matrix<T extends Number> {
 
         if (! (obj instanceof Matrix)) return false; // para ver si son el mismo tipo de instancia
 
-        Matrix<?> matriz = (Matrix<?>) obj;
+        Matrix matriz = (Matrix) obj;
 
         if (this.nrows != matriz.getNrows() || this.ncols != matriz.getNcols()) {
             return false;
@@ -225,7 +225,7 @@ public class Matrix<T extends Number> {
         // Si llegamos hasta aquí es porque si tenemos el mismo tipo de Matriz
         for (int i = 0; i < this.nrows; i++) {
             for (int j = 0; j < this.ncols; j++) {
-                if (this.values[i][j].doubleValue() != matriz.values[i][j].doubleValue()) {
+                if (this.values[i][j] != matriz.values[i][j]) {
                     return false;
                 }
             }
@@ -242,7 +242,7 @@ public class Matrix<T extends Number> {
         for (int i = 0; i < nrows; i++) {
             matriz += "[ ";
             for (int j = 0; j < ncols; j++) {
-                matriz += String.format("%.4f", values[i][j].doubleValue()) + "\t";
+                matriz += String.format("%.4f", values[i][j]) + "\t";
             }
 
             matriz += "]\n";
@@ -253,7 +253,7 @@ public class Matrix<T extends Number> {
 
     @Override
     public Object clone(){
-        Matrix<Double> matriz = new Matrix<>(this.nrows, this.ncols);
+        Matrix matriz = new Matrix(this.nrows, this.ncols);
 
         for (int i = 0; i < nrows; i++) {
             for (int j = 0; j < ncols; j++) {

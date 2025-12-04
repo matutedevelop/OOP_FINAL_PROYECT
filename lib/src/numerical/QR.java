@@ -8,20 +8,20 @@ public class QR {
 
 
 
-    public static ContenedorQR desgloseQR(Matrix<Double> matrix) {
+    public static ContenedorQR desgloseQR(Matrix matrix) {
         int n = matrix.getNrows();
-        Matrix<Double> q = new Matrix<>(n,n);
-        Matrix<Double> r = new Matrix<>(n,n);
+        Matrix q = new Matrix(n,n);
+        Matrix r = new Matrix(n,n);
 
         // Iteramos sobre cada columna de matrix
 
         for (int j = 0; j < n; j++) {
-            Vector<Double> vec = new Vector<>(matrix.getColumn(j));
+            Vector vec = new Vector(matrix.getColumn(j));
             
             // RESTAR PROYECCIONES  
             for (int i = 0; i < n; i++) {
-                Vector<Double> q_i = new Vector<>(q.getColumn(i));
-                Vector<Double> m_i = new Vector<>(matrix.getColumn(i));
+                Vector q_i = new Vector(q.getColumn(i));
+                Vector m_i = new Vector(matrix.getColumn(i));
                 
                 r.setValue(i, j, q_i.dot(m_i));
 
@@ -34,7 +34,7 @@ public class QR {
             // Normalizamos para obtener la columna j de Q
             //Manejo de error si la norma es muy pequeña (división por cero)
             if (vec.getNorm() > 1e-16) {
-                Vector<Double> normal = vec.normalize();
+                Vector normal = vec.normalize();
                 for (int k = 0; k < n; k++) {
                     q.setValue(k,j, normal.getValue(k));
                 }

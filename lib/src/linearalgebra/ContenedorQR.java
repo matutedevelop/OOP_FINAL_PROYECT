@@ -2,19 +2,19 @@ package linearalgebra;
 
 public class ContenedorQR {
 
-    public Matrix<Double> Q;
-    public Matrix<Double> R;
+    public Matrix Q;
+    public Matrix R;
 
-    public ContenedorQR(Matrix<Double> Q, Matrix<Double> R) {
+    public ContenedorQR(Matrix Q, Matrix R) {
         this.Q = Q;
         this.R = R;
     }
 
-    public Matrix<Double> getQ() {
+    public Matrix getQ() {
         return Q;
     }
 
-    public Matrix<Double> getR() {
+    public Matrix getR() {
         return R;
     }
 
