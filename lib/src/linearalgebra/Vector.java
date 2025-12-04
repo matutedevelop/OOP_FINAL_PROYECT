@@ -1,5 +1,7 @@
 package linearalgebra;
 
+import enume.Angulo;
+
 public class Vector<T extends Number> {
     
     // atributos
@@ -162,7 +164,7 @@ public class Vector<T extends Number> {
         return resultado;
     }
 
-    public double angleVector(Vector<? extends Number> otro) {
+    public double angleVector(Vector<? extends Number> otro, Angulo angulo) {
         double dot = this.dot(otro);
         double magA = this.getNorm();
         double magB = otro.getNorm();
@@ -177,7 +179,12 @@ public class Vector<T extends Number> {
         if (coseno > 1.0) coseno = 1.0;
         if (coseno < -1.0) coseno = -1.0;
 
-        return Math.acos(coseno);
+        if (angulo.value() == 1){
+            return Math.acos(coseno);
+        }
+        else {
+            return Math.acos(coseno) * 180 / Math.PI;
+        }
     }
 
 
