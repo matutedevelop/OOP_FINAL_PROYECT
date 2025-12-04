@@ -33,7 +33,7 @@ public class QR {
 
             // Normalizamos para obtener la columna j de Q
             //Manejo de error si la norma es muy pequeña (división por cero)
-            if (vec.getNorm() > 1e-10) {
+            if (vec.getNorm() > 1e-5) {
                 r.setValue(j, j, vec.getNorm());
 
                 Vector normal = vec.normalize();

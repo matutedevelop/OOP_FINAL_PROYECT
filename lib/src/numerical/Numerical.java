@@ -70,13 +70,13 @@ public interface Numerical {
         return sum;
     }
 
-    public static Matrix<Double> solveLinearEq(SquareMatrix<Double> coefMatrix,Matrix<Double> constants){
+    public static Matrix solveLinearEq(SquareMatrix coefMatrix,Matrix constants){
 
         if (constants.getNcols() != 1) {
             throw new IllegalArgumentException("La matriz de constantes tiene que ser de dimensiones nx1");
         }
 
-        SquareMatrix<Double> invCoefMatrix = coefMatrix.getInversa();
+        SquareMatrix invCoefMatrix = coefMatrix.getInversa();
         return invCoefMatrix.multiplicar(constants);
 
 
