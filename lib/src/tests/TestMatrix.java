@@ -1,5 +1,9 @@
 package tests;
 
+
+import java.util.Arrays;
+import java.util.Vector;
+
 import linearalgebra.Matrix;
 import linearalgebra.SquareMatrix;
 
@@ -36,6 +40,12 @@ public class TestMatrix {
         System.out.println(m2.getInversa());
         System.out.println(m2.multiplicar(m2.getInversa()));
 
-        
+        Double[][] val3 = {{1.0, 2.0, 3.0},{3.0,2.0,1.0},{2.0, 2.0, 2.0}};
+        SquareMatrix<Double> m3 = new SquareMatrix<>(val3);
+
+        System.out.println(m3);
+        double[] eig = m3.eigenValues();
+        System.out.println(Arrays.toString(eig));
+
     }
 }

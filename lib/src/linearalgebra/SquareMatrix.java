@@ -1,4 +1,5 @@
 package linearalgebra;
+import numerical.QR;
 
 public class SquareMatrix<T extends Number> extends Matrix<T> {
 
@@ -19,6 +20,13 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         if (this.getNrows() != this.getNcols()) {
             throw new IllegalArgumentException("Los datos no forman una matriz cuadrada.");
         }
+
+        this.dimension = this.getNrows();
+        
+    }
+
+    public int getDimension() {
+        return dimension;
     }
 
     // Metodos que solo tiene la matriz cuadrada
@@ -152,6 +160,30 @@ public class SquareMatrix<T extends Number> extends Matrix<T> {
         }
 
         return matrizInversa;
+    }
+
+    public double[] eigenValues() {
+        int iteraciones = 150;
+        Matrix<Double> matriz = new SquareMatrix<>(this.dimension);
+
+        for (int i = 0; i < this.dimension; i++) {
+            for (int j = 0; j < this.dimension; j++) {
+                matriz.setValue(i, j, getValue(i, j));
+            }
+        }
+
+        for (int i = 0; i < iteraciones; i++ ) {
+            ContenedorQR qr = QR.desgloseQR(matriz);
+            matriz = qr.R.multiplicar(qr.Q);
+        }
+
+        double[] eigenVals = new double[this.dimension];
+
+        for (int k = 0; k < this.dimension; k++) {
+            eigenVals[k] = this.getValue(k, k);
+        }
+
+        return eigenVals;
     }
 
 

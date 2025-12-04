@@ -30,10 +30,26 @@ public class Vector<T extends Number> {
         }
 
         this.dimension = values.length;
+        this.values = new Number[values.length];
 
         // Copia profunda para evitar referencias externas
         for (int i = 0; i < values.length; i++) {
             setValue(i, values[i]);
+        }
+    }
+
+
+    public Vector(double[] values) {
+        if (values == null || values.length == 0) {
+            throw new IllegalArgumentException("El array de datos no puede ser nulo ni estar vacío.");
+        }
+
+        this.dimension = values.length;
+        this.values = new Number[values.length];
+
+        // Copia profunda para evitar referencias externas
+        for (int i = 0; i < values.length; i++) {
+            this.values[i]  = values[i];
         }
     }
 
@@ -157,9 +173,7 @@ public class Vector<T extends Number> {
 
         Vector<Double> resultado = new Vector<>(this.dimension);
 
-        for (int i = 0; i < this.dimension; i++) {
-            resultado.setValue(i, this.getValue(i) / mag);
-        }
+        resultado = resultado.multiplicarEscalar(1 / mag);
 
         return resultado;
     }
@@ -217,13 +231,13 @@ public class Vector<T extends Number> {
     @Override
     public String toString(){
         String vector = "";
-
+        vector += "[ ";
         for (int i = 0; i < this.dimension; i++) {
-            vector += "[ ";
-            vector += String.format("%.4f", getValue(i)) + "\t";
-            vector += "]\n";
+            
+            vector += String.format("%.4f", getValue(i)) + ", "; 
         }
 
+        vector += "]\n";
         return vector;
     }
 
