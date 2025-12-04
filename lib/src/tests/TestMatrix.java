@@ -30,7 +30,7 @@ public class TestMatrix {
 
         System.out.println(m1.clone());
 
-        SquareMatrix mEye = SquareMatrix.eyeMatrix(50);
+        SquareMatrix mEye = SquareMatrix.eyeMatrix(3);
         System.out.println(mEye);
 
         System.out.println(mEye.getDeterminante());
@@ -42,12 +42,15 @@ public class TestMatrix {
         System.out.println(m2.getInversa());
         System.out.println(m2.multiplicar(m2.getInversa()));
 
-        double[][] val3 = {{1.0, 2.0, 3.0},{3.0,2.0,1.0},{2.0, 2.0, 2.0}};
+        double[][] val3 = {{1.0, 2.0, 3.0},{4.0,5.0,6.0},{7.0, 8.0, 9.0}};
         SquareMatrix m3 = new SquareMatrix(val3);
 
         System.out.println(m3);
         double[] eig = m3.eigenValues();
         System.out.println(Arrays.toString(eig));
+        System.out.println(m3.eigenVectors());
+
+        System.out.println(mEye.sumar(m3));
 
     }
 }

@@ -180,11 +180,39 @@ public class SquareMatrix extends Matrix {
         double[] eigenVals = new double[this.dimension];
 
         for (int k = 0; k < this.dimension; k++) {
-            eigenVals[k] = this.getValue(k, k);
+            eigenVals[k] = matriz.getValue(k, k);
         }
 
         return eigenVals;
     }
+
+    public Matrix eigenVectors() {
+        int iteraciones = 200;
+        int n = this.dimension;
+
+        Matrix Ak = new SquareMatrix(n);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                Ak.setValue(i, j, this.getValue(i, j));
+            }
+        }
+
+
+        Matrix V = SquareMatrix.eyeMatrix(n);
+
+        // --- BUCLE QR ---
+        for (int i = 0; i < iteraciones; i++) {
+            ContenedorQR qr = QR.desgloseQR(Ak);
+
+            Ak = qr.R.multiplicar(qr.Q);
+
+            V = V.multiplicar(qr.Q);
+        }
+
+        return V;
+    }
+
 
 
 } // final de la clase
